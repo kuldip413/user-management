@@ -74,9 +74,9 @@ const Admin = (props) => {
                     ),
                 delete_or_restore:
                     !users[i].deleted_at && users[i].id?(
-                        <button className="btn btn-outline-danger small font-weight-bold shadow-lg" onClick={() => removeData(id1)}>Delete</button>
+                        <button className="btn btn-outline-danger small font-weight-bold shadow-lg" onClick={() => { if (window.confirm('Are you sure you wish to delete this user?')) removeData(id1) }}>Delete</button>
                     ):(
-                        <button className="btn btn-outline-info small font-weight-bold shadow-lg" onClick={() => restoreData(id1)}>Restore</button>
+                        <button className="btn btn-outline-info small font-weight-bold shadow-lg" onClick={() => { if (window.confirm('Are you sure you wish to restore this user?')) restoreData(id1) }}>Restore</button>
                     ),
                 tasks:
                     !users[i].deleted_at && users[i].id?(
@@ -92,7 +92,7 @@ const Admin = (props) => {
                 viewTasks:
                     !users[i].deleted_at && users[i].id?(
                         <Link to={{
-                            pathname:`/profile/ViewUserTask`,
+                            pathname:`/profile/userTasks`,
                             param: id1,
                         }}>
                             <button className="btn btn-outline-primary small font-weight-bold shadow-lg">View Task</button>

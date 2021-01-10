@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Switch, Route, Link, useParams, useRouteMatch } from "react-router-dom";
+import { BrowserRouter as Link} from "react-router-dom";
 import axios from "axios";
 import authHeader from "../services/auth-header";
 import { MDBDataTable } from "mdbreact";
@@ -47,7 +47,7 @@ const Assignee = ()=>{
 					<button className="btn btn-outline-primary small font-weight-bold shadow-lg ">Edit</button>
 				</Link>,
 			delete:
-				<button className="btn btn-outline-danger small font-weight-bold shadow-lg" onClick={() => removeTask(idTask)}>Delete</button>
+				<button className="btn btn-outline-danger small font-weight-bold shadow-lg" onClick={() =>{ if (window.confirm('Are you sure you wish to delete this item?')) removeTask(idTask)}}>Delete</button>
 			// role: 
 			// 	users[i].roles ==="Admin" ?(
 			// 		<span className="badge badge-success badge-pill">Admin</span>
@@ -99,9 +99,9 @@ const Assignee = ()=>{
 	};
 	return(
 		<div className="card">
-			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-					<div class="navbar-nav">
+			<nav className="navbar navbar-expand-lg navbar-light bg-light">
+				<div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+					<div className="navbar-nav">
 				  		<Link to={"/profile/task"} className="nav-link">
 		                    <button className="btn btn-outline-primary ">Your Task</button>
 		                </Link>

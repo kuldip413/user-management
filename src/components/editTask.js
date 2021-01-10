@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link, useParams, useRouteMatch } from "react-router-dom";
 import axios from "axios";
 import authHeader from "../services/auth-header";
-import { MDBDataTable } from "mdbreact";
 
 
 const required = (value) => {
@@ -21,7 +20,6 @@ const EditTask = (props) =>{
 	const [description, setDescription] = useState("");
 	const [due_date, setDueDate] = useState("");
 	const [idTask, setIdTask] = useState("");
-    const [task1, setTask1] = useState([]);
 
 	const userToken = JSON.parse(localStorage.getItem('userToken'));
 
@@ -32,12 +30,9 @@ const EditTask = (props) =>{
             axios.get(`http://localhost:8000/api/user/tasks/${props.location.param}?token=`+ userToken.token)
             .then(
                 (response) =>{
-                    // setTask1(response.data.task);
-                    // console.log(response.data.task.title);
-                    // console.log(response.data.task);
                     setTitle(response.data.task.title);
                     setDescription(response.data.task.description);
-                    // setDueDate(response.data.task.due_date);
+                    setDueDate(response.data.task.due_date);
                 }
             );
 		}
@@ -100,7 +95,7 @@ const EditTask = (props) =>{
 					        />
                             <label>Date</label>
                             <input 
-                                type="datetime-local" 
+                                type="text" 
                                 className="form-control" 
                                 name="password"
                                 value={due_date}

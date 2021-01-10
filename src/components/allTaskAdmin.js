@@ -81,9 +81,9 @@ const AllTaskAdmin = ()=>{
 
 	return(
 		<div className="card">
-			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-					<div class="navbar-nav">
+			<nav className="navbar navbar-expand-lg navbar-light bg-light">
+				<div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+					<div className="navbar-nav">
 				  		<Link to={"/profile/taskAdmin"} className="nav-link">
 		                    <button className="btn btn-outline-primary ">Your Task</button>
 		                </Link>

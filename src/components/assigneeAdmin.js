@@ -47,7 +47,7 @@ const AssigneeAdmin = ()=>{
 					<button className="btn btn-outline-primary small font-weight-bold shadow-lg ">Edit</button>
 				</Link>,
 			delete:
-				<button className="btn btn-outline-danger small font-weight-bold shadow-lg" onClick={() => removeTask(idTask)}>Delete</button>
+				<button className="btn btn-outline-danger small font-weight-bold shadow-lg" onClick={() => { if (window.confirm('Are you sure you wish to delete this task?')) removeTask(idTask)}}>Delete</button>
 		})
 	}
 
@@ -88,11 +88,12 @@ const AssigneeAdmin = ()=>{
 		],
 		rows: JsonTasks
 	};
+
 	return(
 		<div className="card">
-			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-					<div class="navbar-nav">
+			<nav className="navbar navbar-expand-lg navbar-light bg-light">
+				<div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+					<div className="navbar-nav">
 				  		<Link to={"/profile/taskAdmin"} className="nav-link">
 		                    <button className="btn btn-outline-primary ">Your Task</button>
 		                </Link>

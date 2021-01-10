@@ -12,7 +12,8 @@ import AllTaskAdmin from "./allTaskAdmin";
 import AddTask from "./addTask";
 import EditTask from "./editTask";
 import ViewTask from "./viewTask";
-// import Dashboard from "./dashboard";
+import UserTasks from "./userTasks";
+import Dashboard from "./dashboard";
 import Register from "./register";
 import Verify from "./verify"
 
@@ -141,7 +142,8 @@ const Profile = (props) => {
 					<Route path={`${path}/allTaskAdmin`} component={AllTaskAdmin}/>
 					<Route path={`${path}/addTask`} component={AddTask}/>
 					<Route path={`${path}/editTask`} component={EditTask}/>
-					<Route path={`${path}/viewTask`} component={ViewTask}/>					
+					<Route path={`${path}/viewTask`} component={ViewTask}/>	
+					<Route path={`${path}/userTasks`} component={UserTasks}/>
 				</Switch>
 			</div>
 		</div>

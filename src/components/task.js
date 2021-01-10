@@ -4,9 +4,17 @@ import axios from "axios";
 import authHeader from "../services/auth-header";
 import { MDBDataTable } from "mdbreact";
 
+import HighchartsReact from 'highcharts-react-official';
+import PieChart from 'highcharts-react-official';
+import Highcharts from 'highcharts';
+
+
 const Task = (props)=>{
 
 	const[tasks, setTasks] = useState([]);
+	const [completed, setCompleted] = useState(0);
+	const [assigned , setAssigned] = useState(0);
+	const [progress, setProgress] = useState(0);
 	// const[assignstate, setAssignstate] = useState(1);
 
 	useEffect(()=>{
@@ -14,6 +22,13 @@ const Task = (props)=>{
 			.then((response) => {
 				// console.log('tasks: ',response.data.tasks);
 				setTasks(response.data.tasks);
+			});
+		axios.get("http://localhost:8000/api/user/taskCount",{ headers: authHeader() })
+			.then((response)=>{
+				setCompleted(response.data.Completed);
+				setAssigned(response.data.assigned);
+				setProgress(response.data.inProgress);
+				console.log(response.data);
 			});
 	},[]);
 
@@ -99,22 +114,53 @@ const Task = (props)=>{
 		],
 		rows: JsonTasks
 	};
+	const options = {
+		title: {
+	        text: 'Task Stats'
+	    },
+		chart: {
+			type: "pie"
+				},
+				series: [
+				{
+				  data: [
+				    {
+				      name: 'Completed',
+				      y: completed
+				    },
+				    {
+				      name: 'Not Started',
+				      y: assigned
+				    },
+				    {
+				      name: 'In Progress',
+				      y: progress
+				    }
+				  ]
+				}
+			]
+		};
 
 	return(
-		<div className="card">
-			<nav class="navbar navbar-expand-lg navbar-light bg-light">
-				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-					<div class="navbar-nav">
-				  		<Link to={"/profile/task"} className="nav-link">
-		                    <button className="btn btn-primary ">Your Task</button>
-		                </Link>
-		                <Link to={"/profile/assignee"} className="nav-link">
-		                    <button className="btn btn-outline-primary ">assigned by you</button>
-		                </Link>
+		<div>
+			<div className="card-chart">
+				<PieChart highcharts={Highcharts} options={options} />
+			</div>
+			<div className="card">
+				<nav class="navbar navbar-expand-lg navbar-light bg-light">
+					<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+						<div class="navbar-nav">
+					  		<Link to={"/profile/task"} className="nav-link">
+			                    <button className="btn btn-primary ">Your Task</button>
+			                </Link>
+			                <Link to={"/profile/assignee"} className="nav-link">
+			                    <button className="btn btn-outline-primary ">assigned by you</button>
+			                </Link>
+						</div>
 					</div>
-				</div>
-			</nav>
-			<MDBDataTable striped bordered hover data={table} />
+				</nav>
+				<MDBDataTable striped bordered hover data={table} />
+			</div>
 		</div>
 	);
 };

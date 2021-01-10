@@ -49,7 +49,6 @@ const ViewTask = (props)=>{
 					<h3>Task Details</h3>
 					<div className="form-group">
 						<h6><strong>Task Id :</strong> {id}</h6>
-						<h6><strong>Status :</strong> {status}</h6>
 						<h6><strong>Assigner Id :</strong> {assignedBy}</h6>
 						<h6><strong>Assignee Id:</strong> {assignee}</h6>
 						<h6><strong>Status :</strong> {status}</h6>
