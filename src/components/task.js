@@ -15,6 +15,8 @@ const Task = (props)=>{
 	const [completed, setCompleted] = useState(0);
 	const [assigned , setAssigned] = useState(0);
 	const [progress, setProgress] = useState(0);
+	const [checked, setChecked] = useState(false);
+	const [taskToday, setTaskToday] = useState([]);
 	// const[assignstate, setAssignstate] = useState(1);
 
 	useEffect(()=>{
@@ -33,7 +35,7 @@ const Task = (props)=>{
 	},[]);
 
 	const JsonTasks=[];
-
+	const JsonToday=[];
 	const userToken = JSON.parse(localStorage.getItem('userToken'));
 
 	const handleUpdate = (id, e) =>{
@@ -44,6 +46,15 @@ const Task = (props)=>{
 		})
 			.then(()=>{
 				window.location.reload();
+			});
+	}
+
+	const handleCheck = (e) =>{
+		setChecked(!checked);
+		axios.get("http://localhost:8000/api/user/todayTasks",{ headers: authHeader() })
+			.then((response)=>{
+				console.log(response.data.tasks);
+				setTaskToday(response.data.tasks);
 			});
 	}
 
@@ -81,6 +92,32 @@ const Task = (props)=>{
 		})
 	}
 
+	for(var i=0; i<Object.keys(taskToday).length; i++){
+		const id1 = taskToday[i].id;
+		JsonToday.push({
+			id: taskToday[i].id,
+			view:
+				<Link to={{
+            		pathname:`/profile/viewTask`,
+            		param: id1,
+			    }}> 
+					<button className="btn btn-outline-primary small font-weight-bold shadow-lg">View</button>
+				</Link>,
+			title: taskToday[i].title,
+			description: taskToday[i].description,
+			due_date: taskToday[i].due_date,
+			update: 
+				<div>
+					<h6>{taskToday[i].status}</h6>
+					<select onChange={(e)=>handleUpdate(id1,e)}>
+							<option name="assigned">Assigned</option>
+		        			<option name="inProgress" >InProgress</option>
+		        			<option name="completed">completed</option>
+	        		</select>
+	        	</div>,
+		})
+	}
+
 	const table={
 		columns:[
 			{
@@ -114,6 +151,41 @@ const Task = (props)=>{
 		],
 		rows: JsonTasks
 	};
+
+	const todaysTasks={
+		columns:[
+			{
+				label: "Details",
+				field: "view",
+				sort: "asc",
+				width: 100
+			},
+			{
+				label: "title",
+				field: "title",
+				sort: "asc",
+				width: 100
+			},
+			{
+				label: "description",
+				field: "description",
+				sort: "asc",
+				width: 100
+			},
+			{
+				label: "due_date",
+				field: "due_date",
+				sort: "asc",
+				width: 100
+			},
+			{
+				label: "Update",
+				field: "update"
+			}
+		],
+		rows: JsonToday
+	};
+
 	const options = {
 		title: {
 	        text: 'Task Stats'
@@ -145,6 +217,16 @@ const Task = (props)=>{
 		<div>
 			<div className="card-chart">
 				<PieChart highcharts={Highcharts} options={options} />
+			</div>
+			<div className="left1">
+				<input type="checkbox" id="check1" onChange={handleCheck} checked={checked}/>
+				<label for="check11"> Show Today's Task</label>
+			</div>
+			<div className="card">
+				{checked ? (
+					<MDBDataTable striped bordered hover data={todaysTasks} />
+					) : (<div></div>)
+				}
 			</div>
 			<div className="card">
 				<nav class="navbar navbar-expand-lg navbar-light bg-light">
